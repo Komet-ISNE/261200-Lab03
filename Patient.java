@@ -1,33 +1,45 @@
 public class Patient {
-    // Instance field
-    private int height;  // student's height in centimeters
-
-    // Constants (static final)
-    private static final int MIN_PERMITTED_HEIGHT = 50;
-    private static final int MAX_PERMITTED_HEIGHT = 175;
-    private static final int DEFAULT_HEIGHT = 100;
+    private int id;
+    private String name;
+    private  int birthyear;
+    private  double  height;
+    private  double weight;
     private String bloodGroup;
     private String phoneNumber;
-    private double weight;
 
-    // TODO: Initialize appropriately
-    // Class-level tracking (static)
-    private static int tallestHeight = MIN_PERMITTED_HEIGHT;
-    private static int shortestHeight = MAX_PERMITTED_HEIGHT;
+    public  Patient (int id , String name ,int birthyear,
+                    double height , double weight ){
+        this.id = id;
+        this.name = name;
+        if(birthyear <= 2025)
+            this.birthyear = birthyear;
+        else
+            this.birthyear = 2000;
 
-    public  Patient (int height){
-        setHeight(height);
+
+        if (height >= 30 && height <= 300)
+            this.height = height;
+        else {
+            System.out.println("Invalid height. Using default 170.0 cm.");
+            this.height = 170.0;
+        }
+
+        if (weight >= 0.5 && weight <= 500)
+            this.weight = weight;
+        else {
+            System.out.println("Invalid weight. Using default 60.0 kg.");
+            this.weight = 60.0;
+
+
+        }
+        this.bloodGroup = "Unknown";
+        this.phoneNumber = "Unknown";
     }
 
-    public Patient(int height, double weight, String bloodGroup, String phoneNumber) {
-        setHeight(height);
-        this.weight = weight;
+    public Patient(int id, String name, int birthyear, double height, double weight, String bloodGroup, String phoneNumber) {
+        this(id, name, birthyear, height, weight);
         this.bloodGroup = bloodGroup;
         this.phoneNumber = phoneNumber;
-    }
-
-    public int getHeight() {
-        return this.height;
     }
 
     public String getBloodGroup() {
@@ -38,47 +50,46 @@ public class Patient {
         return phoneNumber;
     }
 
+
     public double getBMI() {
         double heightInMeters = height / 100.0;
-        if (heightInMeters <= 0) {
-            return 0;
-        }
         return weight / (heightInMeters * heightInMeters);
     }
 
-    public void setHeight(int height) {
 
-        // TODO: Validate height is within permitted range
-        if (height > MIN_PERMITTED_HEIGHT && height < MAX_PERMITTED_HEIGHT) {
-            this.height = height;
-        } else {
-            this.height = DEFAULT_HEIGHT;
-        }
-
-        // TODO: Update tallest and shortest heights
-        if (this.height > tallestHeight) {
-            tallestHeight = this.height;
-        }
-        if (this.height < shortestHeight) {
-            shortestHeight = this.height;
-        }
+    public int getId() {
+        return this.id;
     }
 
-    public static int getTallestHeight() {
-        return tallestHeight;
-    }
-    public static int getShortestHeight() { return  shortestHeight;}
-    public void displayDetails() {
-        System.out.println("Height (cm): " + getHeight());
-        System.out.println("Weight (kg): " + weight);
-        System.out.println("Blood Group: " + bloodGroup);
-        System.out.println("Phone Number: " + phoneNumber);
-        System.out.printf("BMI: %.2f%n", getBMI());
+    public String getName(){
+        return  this.name;
     }
 
-    public static void displayClassDetails() {
-        System.out.println("The tallest height (cm): " + getTallestHeight());
-        System.out.println("The shortest height (cm): " + getShortestHeight());
+    public int getBirthyear (){
+        return this.birthyear;
+    }
+
+    public double getHeight () {
+        return  this.height;
+    }
+
+    public double getWeight (){
+        return  this.weight;
+    }
+
+    public double getAge (int currentYear) {
+       if (currentYear >= birthyear)
+        return  currentYear - birthyear;
+       return  0;
+    }
+
+    public void displayDetails(int currentYear) {
+        System.out.println("Patient Name: " + name);
+        System.out.println("Patient Age: " + getAge(currentYear));
+        System.out.println("Patient Height (cm): " + height);
+        System.out.println("Patient Weight (kg): " + weight);
+        System.out.printf("Patient BMI: %.2f%n", getBMI());
+        System.out.println("Blood Group: " + getBloodGroup());
+        System.out.println("Phone Number: " + getPhoneNumber());
     }
 }
-
